@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using System;
 
 namespace Electroman
 {
@@ -11,11 +12,28 @@ namespace Electroman
     {
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
+        public static Random MainRandom;
 
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
+            MainRandom = new Random();
+
+            string windowName;
+            switch (MainRandom.Next(1, 3))
+            {
+                case 1:
+                    windowName = "Clever phrase 1";
+                    break;
+                case 2:
+                    windowName = "Witty phrase 2";
+                    break;
+                default:
+                    windowName = "Default phrase";
+                    break;
+            }
+            this.Window.Title = "Electroman: " + windowName;
         }
 
         /// <summary>
