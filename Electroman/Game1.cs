@@ -13,27 +13,40 @@ namespace Electroman
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
         public static Random MainRandom;
+        public static Texture2D[] SpriteLibrary;
+        public static Player ThePlayer;
 
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
             MainRandom = new Random();
+            SpriteLibrary = new Texture2D[2];
+            ThePlayer = new Player(new Vector2(400, 200));
 
             string windowName;
-            switch (MainRandom.Next(1, 3))
+            switch (MainRandom.Next(1, 6))
             {
                 case 1:
-                    windowName = "Clever phrase 1";
+                    windowName = ": Clever phrase 1";
                     break;
                 case 2:
-                    windowName = "Witty phrase 2";
+                    windowName = ": Witty phrase 2";
+                    break;
+                case 3:
+                    windowName = " 2: Electric Boogaloo";
+                    break;
+                case 4:
+                    windowName = ": Washing Machine Man";
+                    break;
+                case 5:
+                    windowName = " Episode I: The Magnetic Menace";
                     break;
                 default:
-                    windowName = "Default phrase";
+                    windowName = "";
                     break;
             }
-            this.Window.Title = "Electroman: " + windowName;
+            this.Window.Title = "Electroman" + windowName;
         }
 
         /// <summary>
@@ -59,6 +72,8 @@ namespace Electroman
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
             // TODO: use this.Content to load your game content here
+            for (int i = 0; i < SpriteLibrary.Length; i++)
+                SpriteLibrary[i] = Content.Load<Texture2D>("Images/" + i);
         }
 
         /// <summary>
@@ -81,6 +96,9 @@ namespace Electroman
                 Exit();
 
             // TODO: Add your update logic here
+            KeyboardState keyboardState = Keyboard.GetState();
+
+            ThePlayer.Update(gameTime, keyboardState);
 
             base.Update(gameTime);
         }
@@ -94,6 +112,7 @@ namespace Electroman
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
             // TODO: Add your drawing code here
+            ThePlayer.Draw(spriteBatch);
 
             base.Draw(gameTime);
         }
